@@ -31,26 +31,23 @@ chraccver_human = ['NC_000001.11', 'NC_000002.12', 'NC_000003.12', 'NC_000004.12
 chraccver_test = ['NC_000024.10']
 
 GRCh38 = []
-
-for chraccver in chraccver_test:
+frequency_GRCh38 = ['Chraccver A T G C\n']
+for chraccver in tqdm(chraccver_human, desc='Calculate...'):
     sequence = NCBIdna.get_chromosome_sequence(chraccver)
-    ATGCseq = []
-    i = sequence.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "") \
+
+    i = sequence.replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "") \
         .replace("i", "").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "") \
         .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "") \
         .replace("v", "").replace("w", "").replace("x", "").replace("y", "").replace("z", "")
-    ATGCseq.append(i.upper())
-    caractere_frequency = NCBIdna.nucleotide_frequency(ATGCseq)
-    dna_sequence = f">{chraccver}\n{ATGCseq}\n"
-    GRCh38.append(dna_sequence)
-    print(GRCh38)
-    print(f"{chraccver}: {caractere_frequency}")
 
-fasta_filename = "GRCh38.fasta"
+    proportions, proportions_output = NCBIdna.nucleotide_frequency(i.upper())
 
-with open(fasta_filename, "w") as fasta_file:
+    GRCh38.append(f">{chraccver}\n{i}\n\n")
+    frequency_GRCh38.append(f"{chraccver} {proportions_output}\n")
+
+GRCh38_fasta = "GRCh38.txt"
+frequency_GRCh38_fasta = "GRCh38_frequency.txt"
+with open(GRCh38_fasta, "w") as fasta_file:
     fasta_file.writelines(GRCh38)
-
-with open('With N', "w") as fasta_file_2:
-    fasta_file_2.writelines(sequence)
-
+with open(frequency_GRCh38_fasta, "w") as fasta_file:
+    fasta_file.writelines(frequency_GRCh38)

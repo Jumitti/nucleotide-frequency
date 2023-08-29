@@ -59,10 +59,9 @@ class NCBIdna:
 
         if response.status_code == 200:
 
-            dna_sequence = response.text.split('\n', 1)[1].replace('\n', '')
+            dna_sequence = response.text.lower().split('\n', 1)[1].replace('\n', '')
 
-
-            return dna_sequence
+        return dna_sequence
 
     @staticmethod
     def nucleotide_frequency(sequence):
@@ -78,6 +77,13 @@ class NCBIdna:
         percentage_g = count_g / total_caracteres
         percentage_c = count_c / total_caracteres
 
-        proportions = f"A: {percentage_a:.5%}, T: {percentage_t:.5%}, G: {percentage_g:.5%}, C: {percentage_c:.5%}"
+        proportions = {
+            'A': percentage_a,
+            'T': percentage_t,
+            'G': percentage_g,
+            'C': percentage_c
+        }
 
-        return proportions
+        proportions_output = f"{percentage_a:.5f} {percentage_t:.5f} {percentage_g:.5f} {percentage_c:.5f}"
+
+        return proportions, proportions_output
