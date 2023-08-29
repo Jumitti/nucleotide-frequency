@@ -67,12 +67,17 @@ class NCBIdna:
     @staticmethod
     def nucleotide_frequency(sequence):
         total_caracteres = len(sequence)
-        compteur_caracteres = {}
 
-        for caractere in sequence:
-            if caractere.isalpha():
-                compteur_caracteres[caractere] = compteur_caracteres.get(caractere, 0) + 1
+        count_a = sequence.count('A')
+        count_t = sequence.count('T')
+        count_g = sequence.count('G')
+        count_c = sequence.count('C')
 
-        proportions = {caractere: count / total_caracteres for caractere, count in compteur_caracteres.items()}
+        percentage_a = count_a / total_caracteres
+        percentage_t = count_t / total_caracteres
+        percentage_g = count_g / total_caracteres
+        percentage_c = count_c / total_caracteres
+
+        proportions = f"A: {percentage_a:.5%}, T: {percentage_t:.5%}, G: {percentage_g:.5%}, C: {percentage_c:.5%}"
 
         return proportions

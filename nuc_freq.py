@@ -28,31 +28,30 @@ chraccver_human = ['NC_000001.11', 'NC_000002.12', 'NC_000003.12', 'NC_000004.12
                    'NC_000013.11', 'NC_000014.9', 'NC_000015.10', 'NC_000016.10', 'NC_000017.11', 'NC_000018.10',
                    'NC_000019.10', 'NC_000020.11', 'NC_000021.9', 'NC_000022.11', 'NC_000023.11', 'NC_000024.10']
 
-chraccver_test = ['NC_000001.11']
+chraccver_test = ['NC_000024.10']
 
 GRCh38 = []
 
 for chraccver in chraccver_test:
     sequence = NCBIdna.get_chromosome_sequence(chraccver)
     ATGCseq = []
-    for i in tqdm(sequence, desc='Remove wrong letters'):
-        i = i.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "") \
-            .replace("i", "").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "") \
-            .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "") \
-            .replace("v", "").replace("w", "").replace("x", "").replace("y", "").replace("z", "")
-    ATGCseq.append(i)
+    i = sequence.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "") \
+        .replace("i", "").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "") \
+        .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "") \
+        .replace("v", "").replace("w", "").replace("x", "").replace("y", "").replace("z", "")
+    ATGCseq.append(i.upper())
     caractere_frequency = NCBIdna.nucleotide_frequency(ATGCseq)
     dna_sequence = f">{chraccver}\n{ATGCseq}\n"
     GRCh38.append(dna_sequence)
-
-for caractere, proportion in caractere_frequency.items():
-    print(f"{caractere}: {proportion:.5%}")
+    print(GRCh38)
+    print(f"{chraccver}: {caractere_frequency}")
 
 fasta_filename = "GRCh38.fasta"
 
-
+'''
 with open(fasta_filename, "w") as fasta_file:
     fasta_file.writelines(GRCh38)
 
-#with open('With N', "w") as fasta_file_2:
-    #fasta_file_2.writelines(sequence)
+with open('With N', "w") as fasta_file_2:
+    fasta_file_2.writelines(sequence)
+'''
