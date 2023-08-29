@@ -31,14 +31,22 @@ chraccver_test = ['NC_000001.11']
 
 GRCh38 = []
 
+
 for chraccver in chraccver_test:
-    sequence = NCBIdna.get_chromosome_sequence(chraccver)
-    caractere_frequency = NCBIdna.nucleotide_frequency(sequence)
+    sequence = ncbidna.get_chromosome_sequence(chraccver)
+    ATGCseq = []
+    for i in test_list:
+        i = i.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "")\
+            .replace("i","").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "")\
+            .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "")\
+            .replace("v", "").replace("w", "").replace("x", "").replace("y", "").replace("z", "")
+        ATGCseq.append(i)
+    caractere_frequency = ncbidna.nucleotide_frequency(ATGCseq)
     dna_sequence = f">{chraccver}\n{sequence}\n"
-    GRCh38.append(dna_sequence)
+    grch38.append(dna_sequence)
 
 for caractere, proportion in caractere_frequency.items():
-    print(f"{caractere}: {proportion:.2%}")
+    print(f"{caractere}: {proportion:.5%}")
 
 
 '''
@@ -46,3 +54,6 @@ fasta_filename = "GRCh38.fasta"
 
 with open(fasta_filename, "w") as fasta_file:
     fasta_file.writelines(GRCh38)'''
+
+
+

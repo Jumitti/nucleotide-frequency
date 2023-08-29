@@ -61,6 +61,7 @@ class NCBIdna:
 
             dna_sequence = response.text.split('\n', 1)[1].replace('\n', '')
 
+
             return dna_sequence
 
     @staticmethod
