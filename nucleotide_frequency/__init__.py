@@ -66,7 +66,6 @@ class NCBIdna:
 
     @staticmethod
     def nucleotide_frequency(sequence):
-        sequence = sequence.lower()
         total_caracteres = len(sequence)
         compteur_caracteres = {}
 

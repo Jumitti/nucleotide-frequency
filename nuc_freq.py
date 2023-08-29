@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from nucleotide_frequency import NCBIdna
+from tqdm import tqdm
 
 chraccver_human = ['NC_000001.11', 'NC_000002.12', 'NC_000003.12', 'NC_000004.12', 'NC_000005.10', 'NC_000006.12',
                    'NC_000007.14', 'NC_000008.11', 'NC_000009.12', 'NC_000010.11', 'NC_000011.10', 'NC_000012.12',
@@ -31,29 +32,27 @@ chraccver_test = ['NC_000001.11']
 
 GRCh38 = []
 
-
 for chraccver in chraccver_test:
-    sequence = ncbidna.get_chromosome_sequence(chraccver)
+    sequence = NCBIdna.get_chromosome_sequence(chraccver)
     ATGCseq = []
-    for i in test_list:
-        i = i.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "")\
-            .replace("i","").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "")\
-            .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "")\
+    for i in tqdm(sequence, desc='Remove wrong letters'):
+        i = i.lower().replace("b", "").replace("d", "").replace("e", "").replace("f", "").replace("h", "") \
+            .replace("i", "").replace("j", "").replace("k", "").replace("l", "").replace("m", "").replace("n", "") \
+            .replace("o", "").replace("p", "").replace("q", "").replace("r", "").replace("s", "").replace("u", "") \
             .replace("v", "").replace("w", "").replace("x", "").replace("y", "").replace("z", "")
-        ATGCseq.append(i)
-    caractere_frequency = ncbidna.nucleotide_frequency(ATGCseq)
-    dna_sequence = f">{chraccver}\n{sequence}\n"
-    grch38.append(dna_sequence)
+    ATGCseq.append(i)
+    caractere_frequency = NCBIdna.nucleotide_frequency(ATGCseq)
+    dna_sequence = f">{chraccver}\n{ATGCseq}\n"
+    GRCh38.append(dna_sequence)
 
 for caractere, proportion in caractere_frequency.items():
     print(f"{caractere}: {proportion:.5%}")
 
-
-'''
 fasta_filename = "GRCh38.fasta"
 
+
 with open(fasta_filename, "w") as fasta_file:
-    fasta_file.writelines(GRCh38)'''
+    fasta_file.writelines(GRCh38)
 
-
-
+#with open('With N', "w") as fasta_file_2:
+    #fasta_file_2.writelines(sequence)
