@@ -48,10 +48,9 @@ for chraccver in chraccver_test:
 
 fasta_filename = "GRCh38.fasta"
 
-'''
 with open(fasta_filename, "w") as fasta_file:
     fasta_file.writelines(GRCh38)
 
 with open('With N', "w") as fasta_file_2:
     fasta_file_2.writelines(sequence)
-'''
+
