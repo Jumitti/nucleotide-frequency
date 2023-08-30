@@ -87,3 +87,33 @@ class NCBIdna:
         proportions_output = f"{percentage_a:.5f} {percentage_t:.5f} {percentage_g:.5f} {percentage_c:.5f}"
 
         return proportions, proportions_output
+
+    @staticmethod
+    def read_sequence(filename):
+        sequences = []
+        with open(filename, 'r') as file:
+            lines = file.read().split('\n')
+            current_sequence = None
+            current_sequence_data = []
+            for line in lines:
+                if line.startswith('>'):
+                    if current_sequence is not None:
+                        sequences.append((current_sequence, ''.join(current_sequence_data)))
+                    current_sequence = line[1:]
+                    current_sequence_data = []
+                else:
+                    current_sequence_data.append(line)
+            if current_sequence is not None:
+                sequences.append((current_sequence, ''.join(current_sequence_data)))
+        return sequences
+
+    @staticmethod
+    def truncations(sequence, longueurs, nombre):
+        morceaux = {}
+        for longueur in longueurs:
+            morceaux[longueur] = []
+            for _ in range(nombre):
+                start = random.randint(0, len(sequence) - longueur)
+                morceaux[longueur].append(sequence[start:start + longueur])
+                pbar.update(1)
+        return morceaux

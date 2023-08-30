@@ -27,34 +27,7 @@ from collections import Counter
 import numpy as np
 
 
-def lire_sequences(filename):
-    sequences = []
-    with open(filename, 'r') as file:
-        lines = file.read().split('\n')
-        current_sequence = None
-        current_sequence_data = []
-        for line in lines:
-            if line.startswith('>'):
-                if current_sequence is not None:
-                    sequences.append((current_sequence, ''.join(current_sequence_data)))
-                current_sequence = line[1:]
-                current_sequence_data = []
-            else:
-                current_sequence_data.append(line)
-        if current_sequence is not None:
-            sequences.append((current_sequence, ''.join(current_sequence_data)))
-    return sequences
 
-
-def generer_morceaux(sequence, longueurs, nombre):
-    morceaux = {}
-    for longueur in longueurs:
-        morceaux[longueur] = []
-        for _ in range(nombre):
-            start = random.randint(0, len(sequence) - longueur)
-            morceaux[longueur].append(sequence[start:start + longueur])
-            pbar.update(1)
-    return morceaux
 
 
 def calculer_coefficient_dispersion(proportions):
@@ -84,7 +57,7 @@ iterations = len(sequences) * (max_truncation - min_truncation) / step * nombre_
 
 with tqdm(total=iterations, desc='Generate truncations...', mininterval=0.1) as pbar:
     for name, sequence in sequences:
-        morceaux = generer_morceaux(sequence.upper(), longueurs, nombre_morceaux)
+        morceaux = NCBIdna.truncations(sequence.upper(), longueurs, nombre_morceaux)
         for longueur, liste_morceaux in morceaux.items():
             for idx, morceau in enumerate(liste_morceaux):
                 proportions, proportions_output = NCBIdna.nucleotide_frequency(morceau)
