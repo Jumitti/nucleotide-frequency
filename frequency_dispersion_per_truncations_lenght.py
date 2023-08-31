@@ -27,9 +27,6 @@ from collections import Counter
 import numpy as np
 
 
-
-
-
 def calculer_coefficient_dispersion(proportions):
     proportions_array = np.array(list(proportions.values()))
     mean_proportions = np.mean(proportions_array)
