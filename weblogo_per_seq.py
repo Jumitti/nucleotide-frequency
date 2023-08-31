@@ -7,17 +7,15 @@ import io
 
 plt.ion()
 
-f = 'TEST_weblogo_freq'
-saliency_data_df = pd.read_csv(TEST_random_seq.txt, comment='#', sep=' ')
+f = 'TEST_weblogo_freq_per_seq.txt'
+saliency_data_df = pd.read_csv(f, comment='#', sep='\t', skipinitialspace=True, skiprows=1)
 
-# preview dataframe
-saliency_data_df.head()
+# Créer une matrice de saliency à partir des données chargées
+saliency_mat_df = saliency_data_df.set_index('pos').drop(columns=['A', 'C', 'G', 'T'])
+saliency_mat_df.columns = ['A', 'C', 'G', 'T']
 
-# create saliency matrix
-saliency_mat_df = lm.saliency_to_matrix(seq=saliency_data_df['character'],
-                                        values=saliency_data_df['value'])
-# preview saliency dataframe.
-saliency_mat_df.head()
-
+# Créer le logo WebLogo
 weblogo_img = lm.Logo(saliency_mat_df, figsize=(18, 3))
+
+# Enregistrer le logo en tant qu'image PNG
 plt.savefig("weblogo.png", format="png")
