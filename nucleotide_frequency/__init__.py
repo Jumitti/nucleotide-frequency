@@ -22,6 +22,7 @@
 
 import time
 import requests
+import random
 
 
 class NCBIdna:
@@ -108,7 +109,7 @@ class NCBIdna:
         return sequences
 
     @staticmethod
-    def truncations(sequence, longueurs, nombre):
+    def truncations(sequence, longueurs, nombre, pbar):
         morceaux = {}
         for longueur in longueurs:
             morceaux[longueur] = []

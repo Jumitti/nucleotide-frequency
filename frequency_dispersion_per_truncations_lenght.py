@@ -37,13 +37,13 @@ def calculer_coefficient_dispersion(proportions):
 
 
 min_truncation = 100
-max_truncation = 20000
+max_truncation = 1000
 step = 100
 longueurs = list(range(min_truncation, max_truncation + step, step))
-nombre_morceaux = 1000
+nombre_morceaux = 1
 
-filename = 'GRCh38.txt'
-sequences = lire_sequences(filename)
+filename = 'TEST_random_seq.txt'
+sequences = NCBIdna.read_sequence(filename)
 
 freq_per_seq = ['Chraccver Lenght A T G C Disp\n']
 disp_per_seq = []
@@ -54,7 +54,7 @@ iterations = len(sequences) * (max_truncation - min_truncation) / step * nombre_
 
 with tqdm(total=iterations, desc='Generate truncations...', mininterval=0.1) as pbar:
     for name, sequence in sequences:
-        morceaux = NCBIdna.truncations(sequence.upper(), longueurs, nombre_morceaux)
+        morceaux = NCBIdna.truncations(sequence.upper(), longueurs, nombre_morceaux, pbar)
         for longueur, liste_morceaux in morceaux.items():
             for idx, morceau in enumerate(liste_morceaux):
                 proportions, proportions_output = NCBIdna.nucleotide_frequency(morceau)
@@ -80,12 +80,12 @@ for longueur, dispersions in tqdm(dispersion_par_longueur.items(), desc="Calcul 
     dis_stat.append(f'{longueur} {moyenne:.4f} {sem:.4f} {sd:.4f}\n')
 
 print('Mean SEM and SD done :)')
-frequency = "freq_per_seq.txt"
+frequency = "TEST_weblogo_freq_per_seq.txt"
 with open(frequency, "w") as fasta_file:
     fasta_file.writelines(freq_per_seq)
-
+'''
 disp = "disp_stat.txt"
 with open(disp, "w") as fasta_file:
     fasta_file.writelines(dis_stat)
-
+'''
 print('All done :)')
